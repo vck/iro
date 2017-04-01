@@ -1,4 +1,3 @@
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 
@@ -23,7 +22,7 @@ class Bot:
             continue
       
       # run feature extraction using CountVectorizer
-      self.cv = CountVectorizer()
+   
       self.tf = TfidfVectorizer()
 
    def train(self):
