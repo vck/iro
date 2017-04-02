@@ -1,9 +1,9 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 
-#import teleport
 import csv
 import pickle
+import sys
 
 
 class Bot:
@@ -31,18 +31,23 @@ class Bot:
       # run feature extraction using CountVectorizer
       #cv = CountVectorizer()
       tr = self.tf.fit_transform(self.feature)
-      svc = SVC()
-      svc.fit(tr, self.label)
-      pickle.dump(svc, open(self.model_name, 'wb'))
+      clf  = LinearSVC()
+      clf.fit(tr, self.label)
+      pickle.dump(clf, open(self.model_name, 'wb'))
       print("bot has been trained...!!!")
 
    def predict(self, cmd):
       clf = pickle.load(open(self.model_name, 'rb'))
       x = self.tf.transform(cmd.split())
-      print(clf.predict(x)[0])
+      return clf.predict(x)[0]
 
-         
-bot = Bot('data.csv')
-bot.train()
-bot.predict('link web')
+
+if __name__ == "__main__":
+   bot = Bot('data.csv')
+   bot.train()
+   
+   while True:
+      w = input(" cmd > ")
+      print("input: %s"%w)
+      print(bot.predict(w))
 
